@@ -77,9 +77,18 @@ async function run() {
         res.status(500).send(err);
       }
     });
+
     // get all room data db
     app.get("/rooms", async (req, res) => {
       const result = await roomsCollection.find().toArray();
+      res.send(result);
+    });
+
+    // single data
+    app.get("/rooms/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await roomsCollection.findOne(query);
       res.send(result);
     });
 
