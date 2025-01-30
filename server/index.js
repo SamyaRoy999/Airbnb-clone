@@ -80,7 +80,9 @@ async function run() {
 
     // get all room data db
     app.get("/rooms", async (req, res) => {
+      console.log(req.query);
       const category = req.query.category;
+
       let quary = {};
       if (category && category !== "null") {
         quary = { category };
