@@ -9,7 +9,8 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state || "/";
-  const { signInWithGoogle, signIn, loading, setLoading } = useAuth();
+  const { signInWithGoogle, signIn, loading, setLoading, resetPassword } =
+    useAuth();
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
@@ -29,6 +30,20 @@ const Login = () => {
       toast.error(err.message);
       setLoading(false);
     }
+  };
+
+  const handleResetPassword = async () => {
+    if (!email) return toast.error("Please write your email first!");
+    try {
+      await resetPassword(email);
+      toast.success("Request Success! Check your email for further process...");
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+      setLoading(false);
+    }
+    console.log(email);
   };
 
   // handle google signin
@@ -107,7 +122,7 @@ const Login = () => {
         </form>
         <div className="space-y-1">
           <button
-            // onClick={handleResetPassword}
+            onClick={handleResetPassword}
             className="text-xs hover:underline hover:text-rose-500 text-gray-400"
           >
             Forgot password?
